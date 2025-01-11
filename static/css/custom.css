@@ -1,0 +1,97 @@
+body{
+    overflow-x: hidden;
+
+}
+
+body::after{
+    background: url("../images/background.png") repeat;
+    content: "";
+    opacity: 1;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: -1;
+}
+
+hr{
+    border-top: 1px solid #f68b1f;
+}
+
+.page-header{
+    border-bottom: 1px solid #f68b1f;
+}
+
+.landingRightPanel{
+    border-left: 1px solid #f68b1f;
+}
+
+.login-left-menu{
+    margin-top: 35px;
+}
+
+.login-left-menu div{
+    padding: 10px;
+}
+
+#accordion{
+    font-size: 1.5em;
+}
+
+#accordion h4{
+    font-size: 1.1em;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.custom_panel_heading{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.iit_button{
+    color: #fff;
+    background-color: rgba(246, 139, 31, 0.8);
+    border-color: rgba(246,139,31,1);
+}
+
+.iit_button:hover{
+    background-color: rgba(246,139,31,1);
+}
+
+.activeCustom {
+    background: #DD5D59;
+    opacity: 0.7;
+    /*background: url("../images/background-4.png") repeat;*/
+    border-radius: 10px;
+}
+
+.active, .nav li a:hover, .active > a, .active > a:hover{
+    background: url("../images/bg.png") repeat;
+    background-color: rgb(184, 77, 69) !important;
+    font-weight: bold;
+}
+
+.nav li a.active, .nav li a:hover{
+    color: rgba(255, 255, 255, .8);
+}
+
+/*
+.panel-default>.panel-heading {
+    background: url("../images/background-header.png") repeat;
+}
+*/
+
+.activeSquare, .panel-default>.panel-heading {
+    background: #2E3192;
+    /*background: url("../images/background-4.png") repeat;*/
+}
+
+.navbar-default .navbar-brand, .navbar-default .navbar-brand:hover{
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.font-white{
+    color: #FFF !important;
+}
