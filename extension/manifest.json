@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Facebook Marketplace Product Uploader",
   "version": "1.0.0",
-  "description": "Sync products from localhost to Facebook Marketplace with manual and automatic options.",
+  "description": "Sync products from localhost to Facebook Marketplace",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -15,20 +15,10 @@
   "permissions": [
     "storage",
     "activeTab",
-    "scripting",
-    "tabs"
+    "scripting"
   ],
   "host_permissions": [
     "http://localhost/*",
     "https://www.facebook.com/marketplace/*"
-  ],
-  "background": {
-    "service_worker": "js/background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": ["https://www.facebook.com/marketplace/*"],
-      "js": ["js/content.js"]
-    }
   ]
 }

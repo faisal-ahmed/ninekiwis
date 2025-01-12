@@ -1,6 +1,4 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 require_once 'Base.php';
 
 class Api extends Base
@@ -8,7 +6,7 @@ class Api extends Base
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Api');
+        $this->load->model('ApiModel');
     }
 
     public function index()
@@ -16,12 +14,13 @@ class Api extends Base
         exit('No action');
     }
 
-    public function getAllProducts()
+    public function getProducts()
     {
         $allProducts = array();
-        $allProducts['products'] = $this->AdminModel->getProducts();
-        $allProducts['menuTitle'] = 'All Products';
-        $allProducts['menuHighlight'] = 0;
-        $allProducts['username'] = $this->getSessionAttr("username");
+        $allProducts['products'] = $this->ApiModel->getProducts();
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode($allProducts));
     }
 }

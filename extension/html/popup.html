@@ -51,10 +51,6 @@
                 </ul>
                 <ul class="nav navbar-nav float-right">
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">             <span class="avatar avatar-online"><img src="../theme/app-assets/images/portrait/small/faisal-avatar.png" alt="avatar"></span></a>
-                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="#"><i class="ft-award"></i>Mohammad Faisal Ahmed</a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="ft-user"></i> Profile Settings</a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="ft-power"></i> Logout</a>
-                        </div>
                     </li>
                 </ul>
             </div>
@@ -82,7 +78,7 @@
                         <div class="col-12">
                             <div class="row text-center text-bold-700">
                                 <div class="col-md-12 col-12 py-1">
-                                    <p class="mb-0 success">This is status message from the server</p>
+                                    <p class="mb-0 success" id="status-message">This is status message from the server</p>
                                 </div>
                             </div>
                         </div>
@@ -110,40 +106,28 @@
                 <tr>
                     <th>Action</th>
                     <th>Image</th>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>
                     <th>SKU</th>
                     <th>Price</th>
                     <th>Quantity</th>
+                    <th>Category</th>
                     <th>Status</th>
                     <th>Created On</th>
                 </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td><button id="upload-to-fb" style="cursor: pointer;" class="btn-gradient-primary btn-block my-1">Upload to FB</button></td>
-                        <td><img class="brand-logo d-none d-md-block" style="width: 100px;" alt="Nine Kiwis product logo" src="../icons/icon128.png"></td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011-04-25</td>
-                        <td>$320,800</td>
-                        <td>Lorem</td>
-                        <td>Lorem</td>
-                        <td>May 18, 2023</td>
-                        <td>May 18, 2023</td>
-                    </tr>
+                <tbody id="productTableBody">
                 </tbody>
                 <tfoot>
                     <tr>
                         <th>Action</th>
                         <th>Image</th>
-                        <th>ID</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th>SKU</th>
                         <th>Price</th>
                         <th>Quantity</th>
+                        <th>Category</th>
                         <th>Status</th>
                         <th>Created On</th>
                     </tr>
@@ -156,9 +140,7 @@
 
 
 <footer class="footer footer-static footer-transparent">
-    <p class="clearfix blue-grey text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">Copyright  &copy; <script>
-        document.write(new Date().getFullYear())
-    </script> <a class="text-bold-800 grey darken-2" href="#" target="_blank">ninekiwis.de </a>, All rights reserved. </span><span class="float-md-right d-block d-md-inline-blockd-none d-lg-block">Hand-crafted & Made with <i class="ft-heart pink"></i></span></p>
+    <p class="clearfix blue-grey text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2025 <a class="text-bold-800 grey darken-2" href="#" target="_blank">ninekiwis.de </a>, All rights reserved. </span><span class="float-md-right d-block d-md-inline-blockd-none d-lg-block">Hand-crafted & Made with <i class="ft-heart pink"></i></span></p>
 </footer>
 
 <!-- BEGIN VENDOR JS-->
@@ -175,5 +157,10 @@
 <script src="../theme/app-assets/js/core/datatable/dataTables.bootstrap4.js" type="text/javascript"></script>
 <script src="../theme/app-assets/js/core/datatable.js" type="text/javascript"></script>
 <!-- END DATATABLE JS-->
+
+<!-- BEGIN POPUP JS-->
+<script src="../js/popup.js" type="text/javascript"></script>
+<!-- END POPUP JS-->
+
 </body>
 </html>
