@@ -18,14 +18,15 @@ class AdminModel extends BaseModel
     }
 
     function getProducts(){
-        $data = array();
+        $products = array();
         $this->db->select("p.*, c.name category_name");
         $this->db->from("nk_product p");
         $this->db->join("nk_category c", "c.id = p.category_id", "left");
         $res = $this->db->get('');
 
         foreach ($res->result() as $row) {
-            $currentApplication = array(
+            $product = array(
+                'product_id' => $row->id,
                 'product_name' => $row->name,
                 'description' => $row->description,
                 'price' => $row->price,
@@ -34,95 +35,56 @@ class AdminModel extends BaseModel
                 'sku' => $row->sku,
                 'status' => $row->status,
                 'image' => $row->image_url,
-                'created_at' => date("jS F, Y", $row->created_at),
+                'created_at' => $row->created_at,
             );
-            $data[] = $currentApplication;
+            $products[] = $product;
         }
 
-        return $data;
-
+        return $products;
     }
 
-    function updateApplication($loan_application_user_id){
-        $action = $this->postGet('action');
-        if ($action == 'updateTenor') {
-            $data = array(
-                'tenor' => $this->postGet('updateTenor') . " (New Increased Deadline)",
-            );
+    function getCategory(){
+        $category = array();
+        $this->db->select("*");
+        $this->db->from("nk_category");
+        $res = $this->db->get('');
 
-            $this->db->where("id", $this->postGet('loan_id'));
-            $this->db->update('loan', $data);
-        } else if ($action == 'addTransaction') {
-            $data = array(
-                'loan_id' => $this->postGet('loan_id'),
-                'amount' => $this->postGet('amount'),
-                'type' => PAYMENT_FROM_STUDENT,
-                'date' => strtotime($this->postGet('date')),
-            );
-
-            $this->db->insert('transaction', $data);
-
-            $query = "UPDATE loan SET remaining_amount = (remaining_amount - " . $this->postGet('amount') . ") WHERE id = " . $this->postGet('loan_id') . ";";
-            $query_res = $this->db->query($query);
-        } else if ($action == 'statusUpdate') {
-            $data = array(
-                'status' => $this->postGet('status'),
-            );
-
-            if ($data['status'] == EXISTING_LOAN) {
-                $data['approved_date'] = time();
-                $data['approved_amount'] = $this->postGet('approved_amount');
-                $data['remaining_amount'] = $this->postGet('approved_amount');
-                $data['tenor'] = $this->postGet('tenor');
-            }
-
-            $this->db->where('user_id', $loan_application_user_id);
-            $this->db->update('loan', $data);
-
-            if ($data['status'] == EXISTING_LOAN) {
-                /* Adding the New Transaction Start */
-                $data = array(
-                    'loan_id' => $this->postGet('loan_id'),
-                    'amount' => $this->postGet('approved_amount'),
-                    'type' => LOAN_TO_STUDENT,
-                    'date' => time(),
-                );
-
-                $this->db->insert('transaction', $data);
-                /* Adding the New Transaction End */
-
-                $emailData = array('password' => $this->randomPassword());
-
-                /* Setting Users New Password Start */
-                $data = array(
-                    'password' => md5($emailData['password']),
-                );
-
-                $this->db->where('id', $loan_application_user_id);
-                $this->db->update('users', $data);
-                /* Setting Users New Password End */
-
-                /* Getting information of User Start */
-                $this->db->select("email, username, p.firstname, p.lastname");
-                $this->db->join("personal_info p", "p.user_id = users.id", "left");
-                $this->db->where("users.id", $loan_application_user_id);
-                $res = $this->db->get("users");
-                $to = 0;
-
-                foreach ($res->result() as $key => $value) {
-                    $emailData['name'] = $value->firstname . " " . $value->lastname;
-                    $emailData['username'] = $value->username;
-                    $to = $value->email;
-                    break;
-                }
-                /* Getting information of User Start */
-
-                $emailData['tenor'] = $this->postGet('tenor');
-
-                $this->sendEmail($to, 'Congratulation! Your IIT Study Loan has been approved.',
-                    "emailTemplate/loanApproved.php", $emailData);
-            }
+        foreach ($res->result() as $row) {
+            $category[$row->id] = $row->name;
         }
+
+        return $category;
+    }
+
+    function addProduct(){
+        $filename = $_FILES['product_image']['name'];
+        $config['file_name'] = time() . substr($filename, strrpos($filename, "."));
+        $config['upload_path'] = './product_images/';
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['max_size'] = 2000;
+//        $config['max_width'] = 1024;
+//        $config['max_height'] = 768;
+
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('product_image')) {
+            $error = $this->upload->display_errors();
+            return $error;
+        }
+        $data = $this->upload->data();
+        $uploaded_file_path = base_url() . "/product_images/" . $data['file_name'];
+
+        $data = array(
+            'name' => $this->postGet('name'),
+            'description' => $this->postGet('description'),
+            'price' => $this->postGet('price'),
+            'stock_quantity' => $this->postGet('stock_quantity'),
+            'category_id' => $this->postGet('category_id'),
+            'sku' => $this->postGet('sku'),
+            'image_url' => $uploaded_file_path,
+            'status' => $this->postGet('status')
+        );
+
+        $this->db->insert('nk_product', $data);
 
         return true;
     }

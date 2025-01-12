@@ -57,49 +57,4 @@ class UserModel extends BaseModel
 
         return $data;
     }
-
-    function updateProfile($userId){
-        $newPassword = $this->postGet('newPassword');
-        $confirmedPassword = $this->postGet('confirmedPassword');
-        $password = $this->postGet('currentPassword');
-        $passwordValid = false;
-
-        $this->db->where('id', $userId);
-        $this->db->where('password', md5($password));
-        $res = $this->db->get('nk_users');
-
-        foreach ($res->result() as $user) {
-            $passwordValid = true;
-            break;
-        }
-
-        if ($passwordValid && $newPassword == $confirmedPassword) {
-            $personalInfoData = array(
-                'firstname' => $this->postGet('fname'),
-                'lastName' => $this->postGet('lname'),
-            );
-
-            $this->db->where('user_id', $userId);
-            $personalInfoUpdate = $this->db->update('nk_personal_info', $personalInfoData);
-
-            if (!$personalInfoUpdate){
-                return "An error found. Please try again later!";
-            }
-
-            if ($newPassword != '') {
-                $usersData['password'] = md5($newPassword);
-
-                $this->db->where('id', $userId);
-                $usersInfoUpdate = $this->db->update('nk_users', $usersData);
-
-                if (!$usersInfoUpdate){
-                    return "An error found. Please try again later!";
-                }
-            }
-        } else {
-            return (!$passwordValid) ? 'Invalid Current Password' : "New passwords do not match!";
-        }
-
-        return true;
-    }
 }

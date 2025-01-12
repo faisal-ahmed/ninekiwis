@@ -17,22 +17,30 @@ class AdminDashboard extends Base
         redirect('AdminDashboard/allProducts', 'refresh');
     }
 
-    protected function getErrors(){
-        if ( ($error = $this->getSessionAttr('error')) != false){
-            $this->unsetSessionAttr('error');
-        }
-
-        return $error;
-    }
-
     public function allProducts()
     {
         $allProducts = array();
-        $allProducts['application'] = $this->AdminModel->getProducts();
+        $allProducts['products'] = $this->AdminModel->getProducts();
         $allProducts['menuTitle'] = 'All Products';
-        $allProducts['item'] = 0;
+        $allProducts['menuHighlight'] = 0;
         $allProducts['username'] = $this->getSessionAttr("username");
-        $allProducts['error'] = $this->getErrors();
         $this->viewLoad('admin/dashboard', $allProducts);
+    }
+
+    public function addProduct()
+    {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            if (($error = $this->AdminModel->addProduct()) === TRUE) {
+                $data['success'] = 'Product has been added successfully.';
+            } else {
+                $data['error'] = $error;
+            }
+        }
+
+        $data['category'] = $this->AdminModel->getCategory();
+        $data['menuTitle'] = 'Add A Product';
+        $data['menuHighlight'] = 1;
+        $data['username'] = $this->getSessionAttr("username");
+        $this->viewLoad('admin/add_product', $data);
     }
 }

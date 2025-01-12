@@ -1,7 +1,5 @@
 body{
-    overflow-x: hidden;
     color: #FFFFFF;
-    /* font-family: Arial, Helvetica, Sans-serif; */
     font-family: "Comfortaa", Georgia, "Times New Roman", Times, serif;
     border-color: rgba(252, 217, 96, 1) !important;
     height: 100vh;
@@ -11,7 +9,6 @@ body::after{
     background: url("../images/background.jpg");
     content: "";
     opacity: 1;
-    overflow: hidden;
     position: fixed;
     top: 0;
     left: 0;
@@ -52,8 +49,6 @@ body::after{
 
 .iit_button{
     color: #fff;
-    /* background-color: rgba(246, 139, 31, 0.8);
-    border-color: rgba(246,139,31,1); */
 }
 
 .iit_button:hover{
@@ -75,6 +70,7 @@ body::after{
     background: #368CA6;
 }
 
+/* .active a, .odd { */
 .odd {
     background-color: #8fc6d6 !important;
 }
@@ -108,4 +104,16 @@ hr, .navbar{
 
 .footer{
     color: rgba(252, 217, 96, 1) !important;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+    border-color: #fff;
+}
+
+.dataTable tr td{
+    max-width: 120px !important;
+}
+
+.table-hover>tbody>tr:hover{
+    background-color: transparent;
 }

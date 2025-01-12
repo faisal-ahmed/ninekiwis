@@ -29,12 +29,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($application as $key => $value) { ?>
+                            <?php foreach ($products as $key => $value) { ?>
                                 <tr class="<?php echo ($key % 2) ? "even" : "odd"; ?> gradeX">
                                     <td>
-                                        <a href="<?php echo base_url() ?>index.php/AdminDashboard/viewProduct/<?php echo $value['product_id'] ?>">
+                                        <!-- <a href="<?php // echo base_url() ?>index.php/AdminDashboard/viewProduct/<?php // echo $value['product_id'] ?>"> -->
                                             <?php echo $value['product_name'] ?>
-                                        </a>
+                                        <!-- </a> -->
                                     </td>
                                     <td><?php echo $value['description'] ?></td>
                                     <td><?php echo $value['price'] ?></td>
@@ -42,7 +42,7 @@
                                     <td><?php echo $value['category_title'] ?></td>
                                     <td><?php echo $value['sku'] ?></td>
                                     <td><?php echo $value['status'] ?></td>
-                                    <td><?php echo $value['image'] ?></td>
+                                    <td><img style="width: 100px" src="<?php echo $value['image'] ?>"></td>
                                     <td><?php echo $value['created_at'] ?></td>
                                 </tr>
                             <?php } ?>
