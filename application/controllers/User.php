@@ -27,10 +27,10 @@ class User extends Base {
             if ($this->UserModel->login()) {
                 $this->redirectLoggedInUser();
             } else {
-                $data['error'] = 'Invalid Username or password.';
+                $data['error'] = 'Invalid Email or password.';
             }
         } else {
-            $data['notification'] = 'Please enter your username and password to login.';
+            $data['notification'] = 'Please enter your email and password to login.';
         }
 
         $this->viewLoad('landing/login', $data);

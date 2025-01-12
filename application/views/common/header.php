@@ -6,10 +6,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Nine Kiwis Product Management System">
+    <meta name="author" content="Mohammad Faisal Ahmed">
+    <link rel="icon" href="https://ninekiwis.de/wp-content/uploads/2024/08/cropped-Screenshot-2024-02-07-at-16.57.33-copy-32x32.png" sizes="32x32" />
+    <link rel="icon" href="https://ninekiwis.de/wp-content/uploads/2024/08/cropped-Screenshot-2024-02-07-at-16.57.33-copy-192x192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="https://ninekiwis.de/wp-content/uploads/2024/08/cropped-Screenshot-2024-02-07-at-16.57.33-copy-180x180.png" />
+    <meta name="msapplication-TileImage" content="https://ninekiwis.de/wp-content/uploads/2024/08/cropped-Screenshot-2024-02-07-at-16.57.33-copy-270x270.png" />
 
-    <title>IIT, University of Dhaka - Loan Management System</title>
+    <title>Nine Kiwis Product Management System</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url() ?>static/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">

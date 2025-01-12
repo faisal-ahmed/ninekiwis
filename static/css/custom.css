@@ -1,29 +1,29 @@
 body{
     overflow-x: hidden;
-
+    color: #FFFFFF;
+    font-family: Arial, Helvetica, Sans-serif;
+    border-color: rgba(252, 217, 96, 1) !important;
+    height: 100vh;
 }
 
 body::after{
-    background: url("../images/background.png") repeat;
+    background: url("../images/background.jpg");
     content: "";
     opacity: 1;
-    top: 0;
-    height: 100%;
-    width: 100%;
+    overflow: hidden;
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     z-index: -1;
-}
-
-hr{
-    border-top: 1px solid #f68b1f;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: inherit;
 }
 
 .page-header{
     border-bottom: 1px solid #f68b1f;
-}
-
-.landingRightPanel{
-    border-left: 1px solid #f68b1f;
 }
 
 .login-left-menu{
@@ -51,47 +51,60 @@ hr{
 
 .iit_button{
     color: #fff;
-    background-color: rgba(246, 139, 31, 0.8);
-    border-color: rgba(246,139,31,1);
+    /* background-color: rgba(246, 139, 31, 0.8);
+    border-color: rgba(246,139,31,1); */
 }
 
 .iit_button:hover{
-    background-color: rgba(246,139,31,1);
+    background-color: rgba(252, 217, 96, 1);
 }
 
 .activeCustom {
-    background: #DD5D59;
+    background: #368CA6;
     opacity: 0.7;
-    /*background: url("../images/background-4.png") repeat;*/
     border-radius: 10px;
 }
 
 .active, .nav li a:hover, .active > a, .active > a:hover{
-    background: url("../images/bg.png") repeat;
-    background-color: rgb(184, 77, 69) !important;
+    background-color: #368CA6 !important;
     font-weight: bold;
 }
 
-.nav li a.active, .nav li a:hover{
-    color: rgba(255, 255, 255, .8);
+.activeSquare, .panel, .panel-default > .panel-heading{
+    background: #368CA6;
 }
 
-/*
-.panel-default>.panel-heading {
-    background: url("../images/background-header.png") repeat;
-}
-*/
-
-.activeSquare, .panel-default>.panel-heading {
-    background: #2E3192;
-    /*background: url("../images/background-4.png") repeat;*/
+.odd {
+    background-color: #8fc6d6 !important;
 }
 
-.navbar-default .navbar-brand, .navbar-default .navbar-brand:hover{
-    color: #FFFFFF;
+.pagination>li>a, .pagination>li>span, #side-menu, .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover{
+    background-color: #368CA6 !important;
+    color: #FFFFFF !important;
     font-weight: bold;
 }
 
-.font-white{
+.font-white, a{
     color: #FFF !important;
+}
+
+#page-wrapper{
+    background-color: transparent !important;
+}
+
+.pagination>li>a:hover, .pagination>li>span:hover, .nav li a.active, .nav li a:hover, .nav .open>a, .nav .open>a:focus, .nav .open>a:hover{
+    color: rgba(252, 217, 96, 1) !important;
+    background-color: #8fc6d6 !important;
+}
+
+hr, .navbar{
+    border: 1px solid rgba(252, 217, 96, 1);
+}
+
+.sidebar ul li {
+    border: none !important;
+}
+
+.footer{
+    color: rgba(252, 217, 96, 1) !important;
 }

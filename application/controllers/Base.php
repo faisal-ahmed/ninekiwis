@@ -31,9 +31,11 @@ class Base extends CI_Controller{
         if (isset($_SESSION["$attr"])) {
             return $_SESSION["$attr"];
         }
-        /*        if ($this->session->userdata("$attr") ) {
-                    return $this->session->userdata("$attr");
-                }*/
+/*
+        if ($this->session->userdata("$attr") ) {
+            return $this->session->userdata("$attr");
+        }
+*/
         return false;
     }
 
@@ -48,10 +50,6 @@ class Base extends CI_Controller{
         return true;
     }
 
-    protected function getUserRole(){
-        return $this->getSessionAttr('role');
-    }
-
     protected function getUserId(){
         return $this->getSessionAttr('user_id');
     }
@@ -63,18 +61,13 @@ class Base extends CI_Controller{
     }
 
     protected function viewLoad($view, $data = null){
-        if (!isset($data['hide_menu'])){
-            $data['hide_menu'] = '';
-        }
-        $data['user_role'] = $this->getUserRole();
-        $data['username'] = $this->getSessionAttr('username');
+        $data['email'] = $this->getSessionAttr('email');
         $this->load->view('common/header');
 
         if (!$this->isLoggedIn()){
             $this->load->view("landing/landingHeader", $data);
-            $this->load->view("landing/landingLeftMenu", $data);
         } else {
-            $this->load->view("common/menu", $data);
+            $this->load->view("admin/menu", $data);
         }
 
         $this->load->view("$view", $data);
@@ -88,11 +81,7 @@ class Base extends CI_Controller{
 
     protected function redirectLoggedInUser(){
         if ($this->isLoggedIn()){
-            if ($this->getUserRole() == STUDENT_ROLE_TITLE) {
-                redirect('StudentDashboard', 'refresh');
-            } else if ($this->getUserRole() == ADMIN_ROLE_TITLE){
-                redirect('AdminDashboard', 'refresh');
-            }
+            redirect('AdminDashboard', 'refresh');
         }
     }
 

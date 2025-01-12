@@ -12,7 +12,7 @@ require_once BASEPATH . "../application/libraries/utilities.php";
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">IIT, University of Dhaka - Loan Management System</a>
+            <a class="navbar-brand" href="#">Nine Kiwis Product Management System</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -35,35 +35,21 @@ require_once BASEPATH . "../application/libraries/utilities.php";
 
         <div class="navbar-brand navbar-right">Welcome <?php echo $username ?></div>
 
-        <?php if ($user_role == ADMIN_ROLE_TITLE) { ?>
         <!-- /.navbar-top-links -->
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="<?php echo base_url() ?>index.php/AdminDashboard/newApplicant"><i class="fa fa-th-list fa-fw"></i> New Loan Applications</a>
+                        <a href="<?php echo base_url() ?>index.php/AdminDashboard/newApplicant"><i class="fa fa-th-list fa-fw"></i> All Products</a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url() ?>index.php/AdminDashboard/processingApplication"><i class="fa fa-recycle fa-fw"></i> Processing Loan Queue</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo base_url() ?>index.php/AdminDashboard/existingLoan"><i class="fa fa-check fa-fw"></i> Existing Loan Queue</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo base_url() ?>index.php/AdminDashboard/declinedApplication"><i class="fa fa-times fa-fw"></i> Declined Loan Queue</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo base_url() ?>index.php/AdminDashboard/loanDebt"><i class="fa fa-thumbs-down fa-fw"></i> Debt Loan Queue</a>
-                    </li>
-                    <li>
-                        <a href="<?php echo base_url() ?>index.php/AdminDashboard/loanRefunded"><i class="fa fa-child fa-fw"></i> Refunded Loan Queue</a>
+                        <a href="<?php echo base_url() ?>index.php/AdminDashboard/processingApplication"><i class="fa fa-recycle fa-fw"></i> Add Product</a>
                     </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
         </div>
         <!-- /.navbar-static-side -->
-        <?php } ?>
     </nav>
 
 <!--</div>-->

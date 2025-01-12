@@ -2,11 +2,11 @@
 
 <div class="clearfix"></div>
 
-<div class="row">
+<div class="row footer">
     <div class="col-lg-10 col-md-offset-1">
         <hr/>
-        <h4 class="text-center" style="font-weight: bold;">Copyright &copy; <?php echo date("Y"); ?> Institute of Information Technology, University of Dhaka.</h4>
-        <h5 class="text-center" style="font-weight: bold;">Developed by Mohammad Fuad Ahmed, Batch - 19, MIT, IIT.</h5>
+        <h4 class="text-center" style="font-weight: bold;">Copyright &copy; <?php echo date("Y"); ?> ninekiwis.de</h4>
+        <h5 class="text-center" style="font-weight: bold;">Developed by Mohammad Faisal Ahmed</h5>
     </div>
     <!-- /.col-lg-12 -->
 </div>
