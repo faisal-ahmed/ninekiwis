@@ -1,7 +1,8 @@
 body{
     overflow-x: hidden;
     color: #FFFFFF;
-    font-family: Arial, Helvetica, Sans-serif;
+    /* font-family: Arial, Helvetica, Sans-serif; */
+    font-family: "Comfortaa", Georgia, "Times New Roman", Times, serif;
     border-color: rgba(252, 217, 96, 1) !important;
     height: 100vh;
 }
