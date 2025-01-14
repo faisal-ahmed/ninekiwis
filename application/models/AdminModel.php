@@ -71,7 +71,7 @@ class AdminModel extends BaseModel
             return $error;
         }
         $data = $this->upload->data();
-        $uploaded_file_path = base_url() . "/product_images/" . $data['file_name'];
+        $uploaded_file_path = base_url() . "product_images/" . $data['file_name'];
 
         $data = array(
             'name' => $this->postGet('name'),

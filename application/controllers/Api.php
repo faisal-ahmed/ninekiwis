@@ -23,4 +23,13 @@ class Api extends Base
             ->set_status_header(200)
             ->set_output(json_encode($allProducts));
     }
+
+    public function getProductByID()
+    {
+        $productByID = $this->ApiModel->getProductByID();
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode($productByID));
+    }
 }

@@ -1,10 +1,5 @@
 function uploadProductToFacebook(product, accessToken, catalogId, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://graph.facebook.com/v12.0/" + catalogId + "/batch", true);
-    xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    var payload = {
+    var data = {
         requests: [
             {
                 method: "CREATE",
@@ -21,16 +16,20 @@ function uploadProductToFacebook(product, accessToken, catalogId, callback) {
         ]
     };
 
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                callback(JSON.parse(xhr.responseText));
-            } else {
-                console.error("Error uploading product:", xhr.responseText);
-                callback(null);
-            }
+    $.ajax({
+        url: "https://graph.facebook.com/v12.0/" + catalogId + "/batch",
+        type: "POST",
+        headers: {
+            "Authorization": "Bearer " + accessToken,
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify(data),
+        success: function (response) {
+            callback(response);
+        },
+        error: function (xhr, status, error) {
+            console.error("Error uploading product:", xhr.responseText);
+            callback(null);
         }
-    };
-
-    xhr.send(JSON.stringify(payload));
+    });
 }

@@ -15,8 +15,6 @@ $(document).ready(function () {
                 if (response.products && response.products.length > 0) {
                     statusMessage.text("Product's loading is successful.");
                     populateTable(response.products);
-
-                    // uploadProductsToFacebook(response.products);
                 } else {
                     statusMessage.text("No products found.");
                 }
@@ -46,7 +44,7 @@ $(document).ready(function () {
             $.each(data, function (index, product) {
                 var row =
                     '<tr>' +
-                        '<td><button id="upload-to-fb" value="' + product.product_id + '" style="cursor: pointer;" class="btn-gradient-primary btn-block my-1">Upload to FB</button></td>' +
+                        '<td><button id="upload-to-fb_' + product.product_id + '" value="' + product.product_id + '" style="cursor: pointer;" class="fb_upload_button btn-gradient-primary btn-block my-1">Upload to FB</button></td>' +
                         '<td><img src="' + product.image + '" alt="' + product.product_name + '" width="100"></td>' +
                         '<td>' + product.product_name + '</td>' +
                         '<td>' + product.description + '</td>' +
@@ -70,46 +68,48 @@ $(document).ready(function () {
         }
     }
 
-    function uploadProductsToFacebook(products) {
-        $.each(products, function (index, product) {
-            // Call the Facebook API for each product
-            uploadProduct(product, function (response) {
-                console.log("Product upload response:", response);
-                statusMessage.text("Products uploaded successfully!");
-            });
-        });
-    }
+    $(document).on('click', '.fb_upload_button', function() {
+        product_id = $(this).val();
+        startMarketPlaceSyncing(product_id);
+    });
 
-    function uploadProduct(product, callback) {
-        // Make API call to Facebook Marketing API
+    function startMarketPlaceSyncing(product_id) {
+        statusMessage.text("Fetching product details for Facebook Marketplace Uploading...");
+
+        // Fetch product details from the back-end
         $.ajax({
-            url: "https://graph.facebook.com/v12.0/{catalog_id}/batch",
-            method: "POST",
-            headers: {
-                Authorization: "Bearer {your_access_token}",
-                "Content-Type": "application/json"
-            },
-            data: JSON.stringify({
-                requests: [
-                    {
-                        method: "CREATE",
-                        data: {
-                            retailer_id: product.id,
-                            name: product.name,
-                            description: product.description,
-                            price: product.price + " EUR",
-                            availability: "in stock",
-                            image_url: product.image_url,
-                            url: product.url
-                        }
-                    }
-                ]
-            }),
+            url: "http://localhost/ninekiwis/index.php/Api/getProductByID?id=" + product_id,
+            method: "GET",
+            dataType: "json",
             success: function (response) {
-                callback(response);
+                console.log(response);
+                if (response && response.length > 0) {
+                    statusMessage.text("Product's loading is successful. Now uploading to FB marketplace");
+
+                    // Send other information for product
+                    var product = {
+                        id: response[0].product_id,
+                        name: response[0].product_name,
+                        description: response[0].description,
+                        category: response[0].category_title,
+                        price: response[0].price,
+                        availability: response[0].stock > 0 ? "in stock" : "out of stock",
+                        image_url: response[0].image,
+                        condition: "New",
+                        url: "https://ninekiwis.de/"
+                    };
+
+                    chrome.runtime.sendMessage({
+                        action: "uploadProductToMarketplace",
+                        product: product
+                    });
+                } else {
+                    statusMessage.text("No products found.");
+                }
             },
             error: function (xhr, status, error) {
-                console.error("Failed to upload product:", xhr.responseText);
+                console.error("Error fetching products:", error);
+                statusMessage.text("Failed to fetch products.");
             }
         });
     }

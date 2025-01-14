@@ -43,16 +43,32 @@ class ApiModel extends BaseModel
         return $products;
     }
 
-    function getCategory(){
-        $category = array();
-        $this->db->select("*");
-        $this->db->from("nk_category");
+    function getProductByID(){
+        $id = $this->getPost("id");
+        $products = array();
+        $this->db->select("p.*, c.name category_name");
+        $this->db->from("nk_product p");
+        $this->db->join("nk_category c", "c.id = p.category_id", "left");
+        $this->db->where("p.id", $id);
         $res = $this->db->get('');
 
         foreach ($res->result() as $row) {
-            $category[$row->id] = $row->name;
+            $product = array(
+                'product_id' => $row->id,
+                'product_name' => $row->name,
+                'description' => $row->description,
+                'price' => $row->price,
+                'stock' => $row->stock_quantity,
+                'category_title' => $row->category_name,
+                'sku' => $row->sku,
+                'status' => $row->status,
+                'image' => $row->image_url,
+                'created_at' => $row->created_at,
+            );
+            $products[] = $product;
         }
 
-        return $category;
+        return $products;
     }
+
 }
