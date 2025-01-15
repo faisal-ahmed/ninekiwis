@@ -5,7 +5,6 @@ $(document).ready(function () {
     syncButton.on("click", function () {
         statusMessage.text("Fetching products...");
 
-        // Fetch product details from the back-end
         $.ajax({
             url: "http://localhost/ninekiwis/index.php/Api/getProducts",
             method: "GET",
@@ -26,13 +25,11 @@ $(document).ready(function () {
         });
     });
 
-    // Function to populate the table
     function populateTable(data) {
         try {
             var table = $("#data_table");
             var tbody = $("#productTableBody");
 
-            // Clear existing rows
             tbody.html("");
 
             // Destroy the existing DataTable
@@ -40,7 +37,6 @@ $(document).ready(function () {
                 table.DataTable().clear().destroy();
             }
 
-            // Append new rows
             $.each(data, function (index, product) {
                 var row =
                     '<tr>' +
@@ -73,10 +69,10 @@ $(document).ready(function () {
         startMarketPlaceSyncing(product_id);
     });
 
+    /*
     function startMarketPlaceSyncing(product_id) {
         statusMessage.text("Fetching product details for Facebook Marketplace Uploading...");
 
-        // Fetch product details from the back-end
         $.ajax({
             url: "http://localhost/ninekiwis/index.php/Api/getProductByID?id=" + product_id,
             method: "GET",
@@ -86,22 +82,119 @@ $(document).ready(function () {
                 if (response && response.length > 0) {
                     statusMessage.text("Product's loading is successful. Now uploading to FB marketplace");
 
-                    // Send other information for product
-                    var product = {
-                        id: response[0].product_id,
-                        name: response[0].product_name,
-                        description: response[0].description,
-                        category: response[0].category_title,
-                        price: response[0].price,
-                        availability: response[0].stock > 0 ? "in stock" : "out of stock",
-                        image_url: response[0].image,
-                        condition: "New",
-                        url: "https://ninekiwis.de/"
-                    };
+                    const imageUrl = response[0].image;
+                    createFileFromImageUrl(imageUrl)
+                        .then(function (base64String) {
+                            console.log('Base64 String received:', base64String);
 
-                    chrome.runtime.sendMessage({
-                        action: "uploadProductToMarketplace",
-                        product: product
+                            const product = {
+                                id: response[0].product_id,
+                                name: response[0].product_name,
+                                description: response[0].description,
+                                category: response[0].category_title,
+                                price: response[0].price,
+                                availability: response[0].stock > 0 ? "in stock" : "out of stock",
+                                image_url: imageUrl,
+                                image_file: base64String,
+                                condition: "New",
+                                url: "https://ninekiwis.de/"
+                            };
+
+                            chrome.runtime.sendMessage({
+                                action: "uploadProductToMarketplace",
+                                product: product
+                            });
+                        })
+                        .catch(function (error) {
+                            console.error('Error creating Base64 string:', error);
+                            statusMessage.text("Failed to load product image");
+                        });
+                } else {
+                    statusMessage.text("No products found.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching products:", error);
+                statusMessage.text("Failed to fetch products.");
+            }
+        });
+    }
+
+    function createFileFromImageUrl(imageUrl) {
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: imageUrl,
+                method: 'GET',
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (blob) {
+                    try {
+                        const reader = new FileReader();
+                        reader.onloadend = function () {
+                            const base64String = reader.result.split(',')[1];
+                            console.log('Base64 String:', base64String);
+                            resolve(base64String);
+                        };
+                        reader.onerror = function (error) {
+                            console.error('Error reading blob as Base64:', error);
+                            reject(error);
+                        };
+                        reader.readAsDataURL(blob);
+                    } catch (error) {
+                        console.error('Error processing blob:', error);
+                        reject(error);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching image:', textStatus, errorThrown);
+                    reject(new Error('Error fetching image: ' + textStatus));
+                }
+            });
+        });
+    }
+    */
+
+    function startMarketPlaceSyncing(product_id) {
+        statusMessage.text("Fetching product details for Facebook Marketplace Uploading...");
+
+        $.ajax({
+            url: "http://localhost/ninekiwis/index.php/Api/getProductByID?id=" + product_id,
+            method: "GET",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response && response.length > 0) {
+                    statusMessage.text("Product's loading is successful. Now uploading to FB marketplace");
+
+                    const imageUrl = response[0].image;
+
+                    // Call createFileFromImageUrl with a callback
+                    createFileFromImageUrl(imageUrl, function (error, base64String) {
+                        if (error) {
+                            console.error('Error creating Base64 string:', error);
+                            statusMessage.text("Failed to load product image");
+                        } else {
+                            console.log('Base64 String received:', base64String);
+
+                            const product = {
+                                id: response[0].product_id,
+                                name: response[0].product_name,
+                                description: response[0].description,
+                                category: response[0].category_title,
+                                price: response[0].price,
+                                availability: response[0].stock > 0 ? "in stock" : "out of stock",
+                                image_url: imageUrl,
+                                image_file: base64String,
+                                condition: "New",
+                                url: "https://ninekiwis.de/"
+                            };
+
+                            chrome.runtime.sendMessage({
+                                action: "uploadProductToMarketplace",
+                                product: product
+                            });
+                        }
                     });
                 } else {
                     statusMessage.text("No products found.");
@@ -113,4 +206,37 @@ $(document).ready(function () {
             }
         });
     }
+
+    function createFileFromImageUrl(imageUrl, callback) {
+        $.ajax({
+            url: imageUrl,
+            method: 'GET',
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (blob) {
+                try {
+                    const reader = new FileReader();
+                    reader.onloadend = function () {
+                        const base64String = reader.result.split(',')[1];
+                        console.log('Base64 String:', base64String);
+                        callback(null, base64String);
+                    };
+                    reader.onerror = function (error) {
+                        console.error('Error reading blob as Base64:', error);
+                        callback(error);
+                    };
+                    reader.readAsDataURL(blob);
+                } catch (error) {
+                    console.error('Error processing blob:', error);
+                    callback(error);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching image:', textStatus, errorThrown);
+                callback(new Error('Error fetching image: ' + textStatus));
+            }
+        });
+    }
+
 });

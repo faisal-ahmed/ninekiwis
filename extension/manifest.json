@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Facebook Marketplace Product Uploader",
   "version": "1.0.0",
-  "description": "Sync products from localhost to Facebook Marketplace",
+  "description": "Sync products from Nine Kiwis Server to Facebook Marketplace",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",

@@ -30,9 +30,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             }
         });
     }
+    return true;
 });
 
-// Helper function to send the message to the content script
 function sendMessageToContentScript(tabId, product) {
     chrome.tabs.sendMessage(tabId, {
         action: "uploadProductToMarketplace",

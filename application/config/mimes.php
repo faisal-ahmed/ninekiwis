@@ -90,6 +90,7 @@ return array(
 	'tif'	=>	'image/tiff',
 	'heic' 	=>	'image/heic',
 	'heif' 	=>	'image/heif',
+	'webp' 	=>	'image/webp',
 	'css'	=>	array('text/css', 'text/plain'),
 	'html'	=>	array('text/html', 'text/plain'),
 	'htm'	=>	array('text/html', 'text/plain'),

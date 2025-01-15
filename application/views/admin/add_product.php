@@ -60,7 +60,7 @@
                 <div class="clearfix"></div>
                 <div class="form-group col-xs-12" style="padding-left: 0;">
                     <label>Product's Image:</label>
-                    <input type="file" accept=".png,.jpg,.jpeg" class="form-control" id="product_image" name="product_image" required="true">
+                    <input type="file" accept=".jpg,.jpeg,.png,.gif,.tiff,.heif,.webp" class="form-control" id="product_image" name="product_image" required="true">
                 </div>
 
                 <div class="clearfix"></div>

@@ -60,7 +60,7 @@ class AdminModel extends BaseModel
         $filename = $_FILES['product_image']['name'];
         $config['file_name'] = time() . substr($filename, strrpos($filename, "."));
         $config['upload_path'] = './product_images/';
-        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['allowed_types'] = 'jpg|jpeg|png|gif|tiff|heif|webp';
         $config['max_size'] = 2000;
 //        $config['max_width'] = 1024;
 //        $config['max_height'] = 768;
