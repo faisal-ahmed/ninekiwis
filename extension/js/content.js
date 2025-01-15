@@ -6,23 +6,36 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 
     if (request.action === "uploadProductToMarketplace") {
-        uploadProductToMarketplace(request.product);
-        sendResponse({ status: "Product upload triggered" });
+        uploadProductToMarketplace(request.product, function() {
+            sendResponse({ status: "Product upload triggered" });
+        });
     }
-    return true;
+    return true; // This ensures the message channel remains open for asynchronous response
 });
 
-function uploadProductToMarketplace(product) {
+function uploadProductToMarketplace(product, callback) {
     populateForm(product);
-    productPublishToMarketplace();
+    productPublishToMarketplace(callback);
+}
 
-    /* const waitForMarketplaceForm = setInterval(function () {
-        const form = $('form[data-testid="marketplace_form"]'); // Replace with the correct form selector
-        if (form.length > 0) {
-            clearInterval(waitForMarketplaceForm);
-            populateAndSubmitForm(product);
+function productPublishToMarketplace(callback) {
+    const observer = new MutationObserver(function(mutationsList, observer) {
+        const publishProduct = document.querySelector('div[aria-label="Publish"]:not([aria-disabled="true"])');
+
+        if (publishProduct) {
+            console.log("Publish button found and enabled. Clicking...");
+            publishProduct.click();
+            callback();
+            observer.disconnect();
         }
-    }, 1000); */
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+
+    console.log("Waiting for the Publish button to become available...");
 }
 
 function populateForm(product) {
@@ -149,14 +162,5 @@ function addPhotos(base64String) {
         }
     } else {
         console.error('File input not found. Please ensure the file input is visible.');
-    }
-}
-
-function productPublishToMarketplace() {
-    const publishProduct = document.querySelector('div[aria-label="Publish"]');
-    if (publishProduct && publishProduct.length > 0) {
-        publishProduct.click();
-    } else {
-        setTimeout(productPublishToMarketplace, 1000);
     }
 }
