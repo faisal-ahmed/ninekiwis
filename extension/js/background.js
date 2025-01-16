@@ -1,3 +1,5 @@
+// N.B.: Always keep the console logs as this will run in extension console
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.action === "uploadProductToMarketplace") {
         // Query the active tab in the current window
@@ -5,7 +7,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             if (tabs && tabs.length > 0) {
                 const activeTabId = tabs[0].id;
 
-                // First check if the content script is already loaded
+                // First check if the content script is already loaded, if not then force inject the script
+                // Because sometime FB doesn't allow script to be injected.
                 chrome.tabs.sendMessage(activeTabId, { action: "ping" }, function(response) {
                     if (chrome.runtime.lastError || !response) {
                         console.log("Content script not loaded, injecting now...");
@@ -32,6 +35,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 });
 
+// This function sends message to the content script to uploadProductToMarketplace
 function sendMessageToContentScript(tabId, product) {
     chrome.tabs.sendMessage(tabId, {
         action: "uploadProductToMarketplace",

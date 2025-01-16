@@ -41,7 +41,7 @@
         if (typeof dataTable != 'undefined'){
             $('#' + dataTable).DataTable({
                 responsive: true,
-                "lengthMenu": [ 5, 10, 25, 50, 75, 100, 500 ],
+                "lengthMenu": [ 5, 10, 25, 50, 100 ],
                 "order": [[ 1, "desc" ]]
             });
         }

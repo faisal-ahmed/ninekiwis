@@ -1,16 +1,21 @@
 $(document).ready(function () {
     var syncButton = $("#sync-products");
     var statusMessage = $("#status-message");
+    var baseAPIEndpoint = "http://localhost/ninekiwis/index.php/Api/";
 
+    /*
+         Helper Function: Sync Button Click Event
+         Description:
+            This function fetches the product's from the server and
+            load it as html in the extension page
+     */
     syncButton.on("click", function () {
         statusMessage.text("Fetching products...");
-
         $.ajax({
-            url: "http://localhost/ninekiwis/index.php/Api/getProducts",
+            url: baseAPIEndpoint + "getProducts",
             method: "GET",
             dataType: "json",
             success: function (response) {
-                console.log(response.products);
                 if (response.products && response.products.length > 0) {
                     statusMessage.text("Product's loading is successful.");
                     populateTable(response.products);
@@ -19,12 +24,28 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, error) {
-                console.error("Error fetching products:", error);
                 statusMessage.text("Failed to fetch products.");
             }
         });
     });
 
+    /*
+         Helper Function: FB Upload Button Click Event
+         Description:
+             This function initiates the product upload to the FB marketplace
+     */
+    $(document).on('click', '.fb_upload_button', function() {
+        product_id = $(this).val();
+        startMarketPlaceSyncing(product_id);
+    });
+
+    /*
+        Helper Function: populateTable(data)
+        Description:
+            This function adds the product's row in the html
+        Param:
+            data: Array of products
+     */
     function populateTable(data) {
         try {
             var table = $("#data_table");
@@ -60,37 +81,34 @@ $(document).ready(function () {
                 responsive: false
             });
         } catch (error) {
-            console.error("Error recreating DataTable:", error.message);
+            statusMessage.text("Error recreating DataTable: " + error.message);
         }
     }
 
-    $(document).on('click', '.fb_upload_button', function() {
-        product_id = $(this).val();
-        startMarketPlaceSyncing(product_id);
-    });
-
+    /*
+         Helper Function: startMarketPlaceSyncing(product_id)
+         Description:
+             This function prepares the product and call the chrome API to push
+             data to FB Marketplace.
+         Param:
+            product_id: Product's id which will be pushed to the FB Marketplace
+     */
     function startMarketPlaceSyncing(product_id) {
         statusMessage.text("Fetching product details for Facebook Marketplace Uploading...");
-
         $.ajax({
-            url: "http://localhost/ninekiwis/index.php/Api/getProductByID?id=" + product_id,
+            url: baseAPIEndpoint + "getProductByID?id=" + product_id,
             method: "GET",
             dataType: "json",
             success: function (response) {
-                console.log(response);
                 if (response && response.length > 0) {
-                    statusMessage.text("Product's loading is successful. Now uploading to FB marketplace");
-
+                    statusMessage.text("Product loading is successful. Now uploading to FB marketplace");
                     const imageUrl = response[0].image;
 
-                    // Call createFileFromImageUrl with a callback
-                    createFileFromImageUrl(imageUrl, function (error, base64String) {
+                    // Call createBlogAsBase64FromImageUrl with a callback
+                    createBlogAsBase64FromImageUrl(imageUrl, function (error, base64String) {
                         if (error) {
-                            console.error('Error creating Base64 string:', error);
-                            statusMessage.text("Failed to load product image");
+                            statusMessage.text("Failed to load product image. Error creating Base64 string: " + error);
                         } else {
-                            console.log('Base64 String received:', base64String);
-
                             const product = {
                                 id: response[0].product_id,
                                 name: response[0].product_name,
@@ -104,6 +122,7 @@ $(document).ready(function () {
                                 url: "https://ninekiwis.de/"
                             };
 
+                            // Call chrome API to call function of content.js
                             chrome.runtime.sendMessage({
                                 action: "uploadProductToMarketplace",
                                 product: product
@@ -115,13 +134,22 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, error) {
-                console.error("Error fetching products:", error);
                 statusMessage.text("Failed to fetch products.");
             }
         });
     }
 
-    function createFileFromImageUrl(imageUrl, callback) {
+    /*
+     Helper Function: createBlogAsBase64FromImageUrl(imageUrl, callback)
+     Description:
+         This function fetches the blob content of the image and then
+         creates the base64 string
+     Param:
+        imageUrl: image url to fetch the image and create base64 string
+            Format: Any valid accessible web address
+        callback: function to return the call
+     */
+    function createBlogAsBase64FromImageUrl(imageUrl, callback) {
         $.ajax({
             url: imageUrl,
             method: 'GET',
@@ -133,24 +161,22 @@ $(document).ready(function () {
                     const reader = new FileReader();
                     reader.onloadend = function () {
                         const base64String = reader.result.split(',')[1];
-                        console.log('Base64 String:', base64String);
                         callback(null, base64String);
                     };
                     reader.onerror = function (error) {
-                        console.error('Error reading blob as Base64:', error);
+                        statusMessage.text('Error reading blob as Base64: ' + error);
                         callback(error);
                     };
                     reader.readAsDataURL(blob);
                 } catch (error) {
-                    console.error('Error processing blob:', error);
+                    statusMessage.text('Error processing blob: ' + error);
                     callback(error);
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.error('Error fetching image:', textStatus, errorThrown);
+                statusMessage.text('Error fetching image. Status: ' + textStatus + " | Error: " + errorThrown);
                 callback(new Error('Error fetching image: ' + textStatus));
             }
         });
     }
-
 });

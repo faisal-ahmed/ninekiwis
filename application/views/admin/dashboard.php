@@ -32,9 +32,7 @@
                             <?php foreach ($products as $key => $value) { ?>
                                 <tr class="<?php echo ($key % 2) ? "even" : "odd"; ?> gradeX">
                                     <td>
-                                        <!-- <a href="<?php // echo base_url() ?>index.php/AdminDashboard/viewProduct/<?php // echo $value['product_id'] ?>"> -->
-                                            <?php echo $value['product_name'] ?>
-                                        <!-- </a> -->
+                                        <?php echo $value['product_name'] ?>
                                     </td>
                                     <td><?php echo $value['description'] ?></td>
                                     <td><?php echo $value['price'] ?></td>

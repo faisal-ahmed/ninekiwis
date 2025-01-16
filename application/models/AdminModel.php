@@ -61,9 +61,7 @@ class AdminModel extends BaseModel
         $config['file_name'] = time() . substr($filename, strrpos($filename, "."));
         $config['upload_path'] = './product_images/';
         $config['allowed_types'] = 'jpg|jpeg|png|gif|tiff|heif|webp';
-        $config['max_size'] = 2000;
-//        $config['max_width'] = 1024;
-//        $config['max_height'] = 768;
+        $config['max_size'] = 4000;
 
         $this->load->library('upload', $config);
         if (!$this->upload->do_upload('product_image')) {
