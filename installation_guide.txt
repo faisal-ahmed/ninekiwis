@@ -1,0 +1,26 @@
+Admin Panel (System Backend)
+
+Step 1: Clone the repository in localhost
+Step 2: Import the sql from ninekiwis/sql_data/ninekiwis.sql
+Step 3: Update the database username and password in the ninekiwis/application/config/database.php file at the line number 79 and 80.
+Step 4: Try login in the system at here: http://localhost/ninekiwis/index.php/user/login using username ninekiwis@gmail.com and password "hello" (without quotation).
+Step 5. After login you can see the existing product or add new product. Try adding new product with actual name and details to avoid Facebook copyright and spam detection issues.
+
+Chrome Extension (Installation)
+Step 1: Go to your browser extension page (e.g.: chrome://extensions/ ).
+Step 2: Switch on "Developer mode" (You should get it in the top right corner).
+Step 3: Click "Load unpacked" and select ninekiwis/extension folder and add the extension.
+Step 4: After installation go to the details page of the extension and select "Pin to toolbar".
+
+Chrome Extension (Uses)
+Step 1: Login into your facebook account and go to the https://www.facebook.com/marketplace/create/item page. You must remain on this page for the extension to work.
+Step 2: Click on the extension icon from the browser extension bar. It should be there if you can correctly install the extension.
+Step 3: You would see "Load Products From Server" button at the top of the extension popup page. Click the button to load all products from the server.
+Step 4: On the "PRODUCTS LIST" table click the button on the left side "Upload to FB".
+
+Wait and refresh to check https://www.facebook.com/marketplace/you/selling page. That product would appear in your listings.
+
+Remember:
+I have only populated the required fields (e.g.: Title, Price, Category, Condition) along with a single photo. This is customizable.
+
+If you are facing any trouble then try switching off all other extensions of your chrome browser and reload this extension. For your further queries please contact with me.

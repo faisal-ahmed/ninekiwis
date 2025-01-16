@@ -116,7 +116,7 @@ CREATE TABLE `nk_users` (
 --
 
 INSERT INTO `nk_users` (`id`, `email`, `password`, `last_logged_in`, `created_time`, `modified_time`) VALUES
-(1, 'faisal.ahmed0001@gmail.com', '5d41402abc4b2a76b9719d911017c592', '2025-01-11 13:46:04', 1736603138, NULL);
+(1, 'ninekiwis@gmail.com', '5d41402abc4b2a76b9719d911017c592', '2025-01-11 13:46:04', 1736603138, NULL);
 
 --
 -- Indexes for dumped tables
